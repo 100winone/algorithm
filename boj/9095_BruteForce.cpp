@@ -6,6 +6,7 @@ using namespace std;
 int main(){
     int t;
     scanf("%d", &t);
+
     while(t--){
         int cnt = 0;
         int n;
