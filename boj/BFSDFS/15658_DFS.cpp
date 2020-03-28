@@ -28,7 +28,6 @@ int main(){
     int plus, minus, multiple, div;
     scanf("%d %d %d %d", &plus, &minus, &multiple, &div);
     DFS(plus, minus, multiple, div, arr[0], 1);
-
     printf("%d\n", maxValue);
     printf("%d\n", minValue);
 

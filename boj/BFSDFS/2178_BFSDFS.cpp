@@ -27,7 +27,6 @@ void bfs(int n, int m){
         }
     }
     cout << dis[n][m] << '\n';
-//    printf("%d\n", dis[n][m]);
 }
 int main() {
     ios_base :: sync_with_stdio(false);
