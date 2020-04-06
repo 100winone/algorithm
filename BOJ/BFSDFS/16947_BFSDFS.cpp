@@ -1,0 +1,76 @@
+/*16947 서울 지하철 2호선 BFS + DFS 20200406 very hard*/
+#include <iostream>
+#include <queue>
+#include <cstring>
+#include <vector>
+#define MAX 3000
+using namespace std;
+vector<int> a[MAX]; // DFS 양방향 간선 그래프 할때 주로 선언
+bool isCycleStation[MAX];
+bool checked[MAX];
+int n;
+
+void dfs(int start, int cur, int cnt){
+    if(start == cur && cnt >= 2){
+        isCycleStation[cur] = true;
+        return;
+    }
+    checked[cur] = true;
+    for (int i = 0; i < a[cur].size(); ++i) {
+        int next = a[cur][i];
+        if(!checked[next]) {
+            dfs(start, next, cnt + 1);
+        }
+        if(start == next && cnt >= 2) {
+            dfs(start, next, cnt);
+        }
+    }
+}
+int bfs(int startPoint){
+    queue<pair<int, int>> q;
+    bool bfsCheck[MAX] = {false, };
+    q.push(make_pair(startPoint, 0));
+    bfsCheck[startPoint] = true;
+
+    while(!q.empty()){
+        int now = q.front().first;
+        int cntFromCycle = q.front().second;
+        q.pop();
+        if (isCycleStation[now]){
+            return cntFromCycle;
+        }
+        for (int i = 0; i < a[now].size(); ++i) {
+            int next = a[now][i];
+            if(bfsCheck[next]) continue;
+            q.push(make_pair(next, cntFromCycle + 1));
+            bfsCheck[next] = true;
+        }
+    }
+}
+int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+    cout.tie(NULL);
+    cin >> n;
+    for (int i = 0; i < n; ++i) {
+        int u, v;
+        cin >> u >> v;
+        u -= 1;
+        v -= 1;
+        a[u].push_back(v);
+        a[v].push_back(u);
+    }
+    for (int i = 0; i < n; ++i) {
+        memset(checked, false, sizeof(checked));
+        dfs(i, i, 0);
+    }
+    for (int i = 0; i < n; ++i) {
+        if(isCycleStation[i]){
+            cout << 0 << ' ';
+            continue;
+        }
+            cout << bfs(i) << ' ';
+
+    }
+    return 0;
+}
