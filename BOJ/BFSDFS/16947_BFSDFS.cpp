@@ -10,18 +10,18 @@ bool isCycleStation[MAX];
 bool checked[MAX];
 int n;
 
-void dfs(int start, int cur, int cnt){
-    if(start == cur && cnt >= 2){
+void dfs(int start, int cur, int cnt){ // dfs로 순환인지 확인
+    if(start == cur && cnt >= 2){ // cnt가 2 이상이면 양방향에 들어왔는지 확인할 수 있음
         isCycleStation[cur] = true;
         return;
     }
-    checked[cur] = true;
-    for (int i = 0; i < a[cur].size(); ++i) {
-        int next = a[cur][i];
+    checked[cur] = true; // 현 위치를 확인하고
+    for (int i = 0; i < a[cur].size(); ++i) { // 현재 위치의 사이즈만큼 간선을 돌아서 DFS
+        int next = a[cur][i]; // 
         if(!checked[next]) {
-            dfs(start, next, cnt + 1);
+            dfs(start, next, cnt + 1); 
         }
-        if(start == next && cnt >= 2) {
+        if(start == next && cnt >= 2) { 
             dfs(start, next, cnt);
         }
     }
@@ -30,11 +30,11 @@ int bfs(int startPoint){
     queue<pair<int, int>> q;
     bool bfsCheck[MAX] = {false, };
     q.push(make_pair(startPoint, 0));
-    bfsCheck[startPoint] = true;
+    bfsCheck[startPoint] = true; 
 
     while(!q.empty()){
         int now = q.front().first;
-        int cntFromCycle = q.front().second;
+        int cntFromCycle = q.front().second; // 순환에서 벗어난 갯수
         q.pop();
         if (isCycleStation[now]){
             return cntFromCycle;
@@ -64,8 +64,8 @@ int main(){
         memset(checked, false, sizeof(checked));
         dfs(i, i, 0);
     }
-    for (int i = 0; i < n; ++i) {
-        if(isCycleStation[i]){
+    for (int i = 0; i < n; ++i) { // 다 돌면서 BFS
+        if(isCycleStation[i]){ // 그게 순환에 있는 애면 0 출력
             cout << 0 << ' ';
             continue;
         }
