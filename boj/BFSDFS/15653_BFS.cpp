@@ -110,5 +110,6 @@ int main(){
     }
     visited[rx][ry][bx][by] = true;
     bfs();
+
     return 0;
 }
