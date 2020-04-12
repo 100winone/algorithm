@@ -1,7 +1,6 @@
 /*15653 구슬 탈출4*/
 #include <iostream>
 #include <stdio.h>
-#include <vector>
 #include <queue>
 #define MAX 11
 
