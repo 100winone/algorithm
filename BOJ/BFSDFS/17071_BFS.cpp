@@ -1,46 +1,51 @@
-/*17071 숨바꼭질 BFS 시간초과 0.25초 20200406*/ 
+/* 17071 숨바꼭질 BFS 20200421 시간복잡도 빡셈
+ * 어려움
+ * 동생의 이동방법은 항상 정해져있음*/
 #include <iostream>
-#include <queue>
 #include <cstring>
+#include <tuple>
+#include <queue>
+
 using namespace std;
-int dist[500001];
+int d[500001][2]; // d[i][0] d[i][1] d[i]에 도착하는 가장 빠른 짝수 홀수 시간
+
 int main(){
     ios::sync_with_stdio(false);
     cin.tie(NULL);
-    cout.tie(NULL);
+    cin.tie(NULL);
 
     int n, k;
     cin >> n >> k;
-    if(n == k){
-        cout << '0' << '\n';
-        return 0;
-    }
-    memset(dist, -1, sizeof(dist));
-    queue<int> q;
-    q.push(n); // n의 좌표 초기값으로 넣어주기
-    dist[n] = 0; // 초기 거리 0 -> 이후에 1초씩 늘어나느거리로
-    for (int t = 1; ; t++) {
-        k += t; // k를 먼저 1초씩 늘어나는걸로 다 만들어줌
-        if(k > 500000) break; // 50만보다 크면 끝내
-        queue<int> nq; // 큐를 한개 더만들고 여기서 확인
-        while(!q.empty()){
-            int x = q.front();
-            q.pop();
-            for (int y : {x + 1, x - 1, 2 * x}) { // 1초에 갈 수 있는 경우 세가지
-                if(0 <= y && y <= 500000){ // y가 0보다 크고 500000보다 작으면
-                    if(dist[y] != t){ // 그 좌표에 있을 때 그 시간에 한번도 도달하지 않았으면
-                        nq.push(y); // y값을 nq에 넣음
-                        dist[y] = t;
-                    }
+    memset(d, -1, sizeof(d));
+    queue<pair<int, int>> q;
+    q.push(make_pair(n, 0));
+    d[n][0] = 0;
+    while(!q.empty()){
+        int x, t;
+        tie(x, t) = q.front();
+        q.pop();
+        for (int y : {x + 1, x - 1, 2 * x}) {
+            if(0 <= y && y <= 500000){
+                if(d[y][1 - t] == -1){ // 방문한적 없으면
+                    d[y][1 - t] = d[x][t] + 1;
+                    q.push(make_pair(y, 1 - t));
                 }
             }
         }
-        if(dist[k] == t) { // 그 거리에 있을 때랑 ... 초랑 같으면 끝내기
-            cout << t << '\n';
-            return 0;
-        }
-        q = nq;
     }
-    cout << -1 << '\n';
+    int ans = -1;
+    int t = 0;
+    while (true){
+        k += t;
+        if(k > 500000) break;
+        if(d[k][t % 2] <= t){ // 수빈이 도착하는 가장 빠른 시간이 동생이 도착하는 시간보다 빠를때
+            ans = t;
+            break;
+        }
+        t += 1;
+    }
+
+
+    cout << ans << '\n';
     return 0;
 }
