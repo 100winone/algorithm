@@ -47,5 +47,6 @@ int main(){
         }
         printf("%s\n", ok ? "YES" : "NO");
     }
+    
     return 0;
 }
