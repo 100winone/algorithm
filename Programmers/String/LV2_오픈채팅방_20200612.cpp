@@ -18,16 +18,34 @@ vector<string> solution(vector<string> record) {
     vector<pair<string, string>> v;
     map<string, string> mp;
     for (int i = 0; i < record.size(); ++i) {
-        if(record[i].substr(0, 1) == "E"){
+        if (record[i].substr(0, 1) == "E") {
             string id = "";
-            for (int j = ; j < ; ++j) {
-
+            int j;
+            for (j = 6; record[i][j] != ' '; ++j) {
+                id += record[i][j];
             }
-        } else if (record[i].substr(0, 1) == "L"){
-
+            mp[id] = record[i].substr(j + 1);
+            v.push_back({id, "E"});
+        } else if (record[i].substr(0, 1) == "L") {
+            string id = "";
+            id = record[i].substr(6);
+            v.push_back({id, "L"});
         } else {
-
+            string id = "";
+            int j;
+            for (j = 7; record[i][j] != ' '; ++j) {
+                id += record[i][j];
+            }
+            mp[id] = record[i].substr(j + 1);
         }
+    }
+    for (int i = 0; i < v.size(); ++i) {
+        string res = "";
+        res += mp[v[i].first];
+        if(v[i].second == "E") res += "님이 들어왔습니다.";
+        else res += "님이 나갔습니다.";
+
+        answer.push_back(res);
     }
     return answer;
 }
