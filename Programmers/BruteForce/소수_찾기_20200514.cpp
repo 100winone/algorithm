@@ -5,7 +5,6 @@ using namespace std;
 bool select[10];
 bool checkNum[10000000];
 int answer = 0;
-
 bool validation(int num){
     if(num == 1 || num == 0) return false;
     for (int i = 2; i < sqrt(num); ++i) {
