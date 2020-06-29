@@ -3,7 +3,6 @@ using namespace std;
 int graph[31][11];
 int N, M, H;
 int answer = 987654321;
-
 bool isValidLadder(){
     for (int i = 1; i <= N; ++i) {
         int curPos = i;
